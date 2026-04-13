@@ -1,123 +1,49 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	
-	<title>that's my spot.com</title>
-	
-	
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-	<link href="css/style3.css" rel="stylesheet" type="text/css" media="all" />
-	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- <link rel="css/bootstrap.min.css">
-	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-
-	<link rel="stylesheet" type="text/css" href="css/animate.css"/>
-
-
-
-<script src="js/jquery.min.js"></script>
-
-<script type="text/javascript" src="js/move-top.js">
-		</script>
-	
-
-	  <script src="js/bootstrap.min.js"></script>
-
-
-	<script type="text/javascript" src="js/wow.js"></script>
-	<script src="js/wow.min.js"></script>
-	<script type="text/javascript" src="js/easing.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$(".scroll").click(function(event){		
-					event.preventDefault();
-					$('html,body').animate({scrollTop:$(this.hash).offset().top},900);
-				});
-			});
-		</script>
-
-	<script>
- new WOW().init();
-</script>
-
-  <style>
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-      width: 100%;
-      margin: auto;
-	
-}
-
-  </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | That's My Spot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100">
+  <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-6">
+    <header class="mb-8 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="images/logo.jpg" alt="Logo" class="h-10 w-10 rounded-xl object-cover" />
+        <span class="font-semibold">That's My Spot</span>
+      </a>
+      <a href="Sign_in_customer.html" class="rounded-lg border border-slate-600 px-4 py-2 text-sm hover:border-slate-400">Already have an account?</a>
+    </header>
 
-	
+    <main class="grid flex-1 items-center gap-8 md:grid-cols-2">
+      <section>
+        <h1 class="text-4xl font-bold">Create your account</h1>
+        <p class="mt-3 text-slate-300">Register once and quickly reserve parking spots for your vehicle.</p>
+      </section>
 
-<body id="body">
-
-
-	<!--  Header Section  -->
-	<header>
-		<div class="container">
-			<div class="logo pull-left animated wow fadeInLeft">
-				<img src="images/logo.jpg" height="80px"  width="65px" alt="" title="" >
-				<p style="font-style:italic;color:white;font-size:12pt;"                 class="animated wow fadeInLeft" data-wow-delay=".2s">That's my spot</p>
-				
-				
-				 
-			</div>
-
-		
-			<nav class="pull-right">
-				<ul class="list-unstyled">
-
-
-					
-					<li class="animated wow fadeInLeft" data-wow-delay="0s"><a href="index.html">Home</a></li>
-				
-					<li class="animated wow fadeInLeft" data-wow-delay=".2s"><a href="#gallery">Gallery</a></li>
-					<li class="animated wow fadeInLeft" data-wow-delay=".2s"><a href="#contact">Contact</a></li>
-				</ul>
-			</nav>
-
-
-			<span class="burger_icon">menu</span>
-		</div>
-	</header>
-	<!--  End Header Section  -->
-
-
-<div class="container">
-    <div class="row">
-        <div class="form_bg">
-        
-        
-<form action="Sign_up_cust_servlet" method="post">
-Customer Name : <br>
-<input type="text" name="cust_name">
-<br>
-Vehicle number : <br>
-<input type="text" name="V_number" maxlength="10">
-<br>
-Vehicle Type (0-> Bike 1->Car ) : <br>
-<input type="text" name="V_type" maxlength="1" >
-<br>
-Password : <br>
-<input type="password" name="cust_pwd">
-<br><br>
-<input type="submit" value="Sign up!" >
-<br>
-</form>
-       </div>
-    </div>
-</div>
-
-
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl">
+        <form action="Sign_up_cust_servlet" method="post" class="space-y-4">
+          <div>
+            <label class="mb-2 block text-sm text-slate-300" for="cust_name">Customer Name</label>
+            <input id="cust_name" name="cust_name" type="text" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-indigo-500/30 focus:ring" />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm text-slate-300" for="V_number">Vehicle Number</label>
+            <input id="V_number" name="V_number" type="text" maxlength="10" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-indigo-500/30 focus:ring" />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm text-slate-300" for="V_type">Vehicle Type (0 = Bike, 1 = Car)</label>
+            <input id="V_type" name="V_type" type="text" maxlength="1" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-indigo-500/30 focus:ring" />
+          </div>
+          <div>
+            <label class="mb-2 block text-sm text-slate-300" for="cust_pwd">Password</label>
+            <input id="cust_pwd" name="cust_pwd" type="password" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 outline-none ring-indigo-500/30 focus:ring" />
+          </div>
+          <button type="submit" class="w-full rounded-lg bg-indigo-600 px-4 py-2.5 font-semibold text-white hover:bg-indigo-500">Sign Up</button>
+        </form>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
