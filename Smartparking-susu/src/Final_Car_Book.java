@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.servlet.ServletException;
@@ -63,6 +64,7 @@ public class Final_Car_Book extends HttpServlet {
                 String hour = request.getParameter("hour");
                 String dateValue;
                 try {
+                    // Parse for validation and normalize to ISO date persisted in DB.
                     dateValue = LocalDate.parse(date).toString();
                 } catch (Exception ex) {
                     con.rollback();
@@ -108,7 +110,7 @@ public class Final_Car_Book extends HttpServlet {
         out.println("</div></body></html>");
     }
 
-    private boolean isSpotAvailable(Connection con, String pnum, String snum, int vehicleType) throws Exception {
+    private boolean isSpotAvailable(Connection con, String pnum, String snum, int vehicleType) throws SQLException {
         try (PreparedStatement check = con.prepareStatement(
                 "select count(*) from parking_spot_info where park_num=? and spot_number=? and vehicle_type=?")) {
             check.setInt(1, Integer.parseInt(pnum));

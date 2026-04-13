@@ -54,7 +54,7 @@ public class Sign_in_Customer extends HttpServlet {
                 out.println("<form method=\"post\" action=\"LogoutServlet\" style=\"display:inline;float:right;\">"
                         + SecurityUtil.csrfHiddenInput(session)
                         + "<button type=\"submit\">Logout</button></form>");
-                out.println(" <br><hr> Customer Name : " + customerName + "<br>Vechicle Number : " + vehicleNumber
+                out.println(" <br><hr> Customer Name : " + customerName + "<br>Vehicle Number : " + vehicleNumber
                         + "<br>Vehicle type : " + vehicleType + "<br><hr>");
 
                 renderBookingOrLocation(con, out, session, r.getString(1));

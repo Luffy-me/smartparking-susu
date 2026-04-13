@@ -46,7 +46,7 @@ public class Leave_Customer extends HttpServlet {
             String snum = null;
             String bookDate = null;
             String bookInTime = null;
-            String vtype = null;
+            String vehicleType = null;
 
             try (PreparedStatement find = con.prepareStatement(
                     "select park_num,spot_number,book_date,book_in_time,vehicle_type from parking_spot_info where cid=?");
@@ -58,7 +58,7 @@ public class Leave_Customer extends HttpServlet {
                         snum = r.getString(2);
                         bookDate = r.getString(3);
                         bookInTime = r.getString(4);
-                        vtype = r.getString(5);
+                        vehicleType = r.getString(5);
                     }
                 }
 
@@ -82,7 +82,7 @@ public class Leave_Customer extends HttpServlet {
                 return;
             }
 
-            float cost = resolveCost(con, pnum, vtype);
+            float cost = resolveCost(con, pnum, vehicleType);
             LocalDate bookedDate = LocalDate.parse(bookDate);
             LocalTime bookedTime = LocalTime.parse(bookInTime);
             LocalDateTime bookedAt = LocalDateTime.of(bookedDate, bookedTime);
@@ -103,8 +103,8 @@ public class Leave_Customer extends HttpServlet {
         out.println("</body></html>");
     }
 
-    private float resolveCost(Connection con, String pnum, String vtype) throws Exception {
-        String query = "1".equals(vtype) ? "select cost_of_car_parkings from parking_lot_info where park_number=?"
+    private float resolveCost(Connection con, String pnum, String vehicleType) throws Exception {
+        String query = "1".equals(vehicleType) ? "select cost_of_car_parkings from parking_lot_info where park_number=?"
                 : "select cost_of_bike_parkings from parking_lot_info where park_number=?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, Integer.parseInt(pnum));

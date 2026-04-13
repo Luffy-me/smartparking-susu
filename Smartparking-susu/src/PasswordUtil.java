@@ -30,6 +30,8 @@ public final class PasswordUtil {
             return false;
         }
 
+        // Temporary legacy fallback for accounts still stored in plain text.
+        // Keep only until all records are migrated to PBKDF2 format.
         if (!storedValue.startsWith("PBKDF2$")) {
             return storedValue.equals(password);
         }
