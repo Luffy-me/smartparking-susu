@@ -24,7 +24,7 @@ public final class DbUtil {
         String user = getEnv("DB_USER", DEFAULT_DB_USER);
         String password = getEnv("DB_PASSWORD", DEFAULT_DB_PASSWORD);
         if (DEFAULT_DB_PASSWORD.equals(password)) {
-            throw new SQLException("DB_PASSWORD must be configured for non-default credentials.");
+            throw new SQLException("DB_PASSWORD environment variable must be set; default placeholder cannot be used.");
         }
         return DriverManager.getConnection(url, user, password);
     }

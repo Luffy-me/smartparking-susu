@@ -38,9 +38,10 @@ public class Select_spot_car extends HttpServlet {
 
         out.println("<h3>Advanced Booking</h3>");
         out.println("<form method=\"post\" action=\"Final_Car_Book\">" + SecurityUtil.csrfHiddenInput(session));
-        int day = LocalDate.now().getDayOfMonth();
-        out.println("Date : <select name=\"date\"><option value=\"" + day + "\">" + day + "</option><option value=\""
-                + (day + 1) + "\">" + (day + 1) + "</option></select><br>");
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+        out.println("Date : <select name=\"date\"><option value=\"" + today + "\">" + today
+                + "</option><option value=\"" + tomorrow + "\">" + tomorrow + "</option></select><br>");
         out.println("Hour : <select name=\"hour\">");
         for (int i = 0; i <= 23; i++) {
             out.println("<option value=\"" + i + "\">" + i + "</option>");

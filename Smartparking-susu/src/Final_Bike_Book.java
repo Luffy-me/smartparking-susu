@@ -61,11 +61,7 @@ public class Final_Bike_Book extends HttpServlet {
             } else {
                 String date = request.getParameter("date");
                 String hour = request.getParameter("hour");
-                int selectedDay = Integer.parseInt(date);
-                LocalDate now = LocalDate.now();
-                LocalDate baseDate = selectedDay < now.getDayOfMonth() ? now.plusMonths(1) : now;
-                int dayInMonth = Math.min(selectedDay, baseDate.lengthOfMonth());
-                String dateValue = baseDate.withDayOfMonth(dayInMonth).toString();
+                String dateValue = LocalDate.parse(date).toString();
                 try (PreparedStatement s = con.prepareStatement(
                         "insert into parking_spot_info values(?,?,?,?,?,?,0)")) {
                     s.setInt(1, Integer.parseInt(snum));
