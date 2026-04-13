@@ -246,7 +246,7 @@
       }).filter(Boolean);
 
       if (currentPage === 'index.html' || currentPage === '') {
-        const sectionVisibilityThresholds = [0.35, 0.6];
+        const intersectionThresholds = [0.35, 0.6];
         const observer = new IntersectionObserver(function (entries) {
           const visibleSections = entries.filter(function (entry) {
             return entry.isIntersecting;
@@ -257,7 +257,7 @@
           if (visibleSections.length > 0) {
             setActiveNav(visibleSections[0].target.id);
           }
-        }, { threshold: sectionVisibilityThresholds });
+        }, { threshold: intersectionThresholds });
 
         indexSections.forEach(function (section) {
           observer.observe(section);
