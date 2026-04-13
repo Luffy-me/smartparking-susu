@@ -61,7 +61,15 @@ public class Final_Car_Book extends HttpServlet {
             } else {
                 String date = request.getParameter("date");
                 String hour = request.getParameter("hour");
-                String dateValue = LocalDate.parse(date).toString();
+                String dateValue;
+                try {
+                    dateValue = LocalDate.parse(date).toString();
+                } catch (Exception ex) {
+                    con.rollback();
+                    out.println("Invalid booking date.");
+                    out.println("</div></body></html>");
+                    return;
+                }
                 try (PreparedStatement s = con.prepareStatement(
                         "insert into parking_spot_info values(?,?,?,?,?,?,0)")) {
                     s.setInt(1, Integer.parseInt(snum));

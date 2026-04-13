@@ -3,6 +3,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.servlet.ServletException;
@@ -41,19 +44,21 @@ public class Leave_Customer extends HttpServlet {
 
             String pnum = null;
             String snum = null;
+            String bookDate = null;
             String bookInTime = null;
             String vtype = null;
 
             try (PreparedStatement find = con.prepareStatement(
-                    "select park_num,spot_number,book_in_time,vehicle_type from parking_spot_info where cid=?");
+                    "select park_num,spot_number,book_date,book_in_time,vehicle_type from parking_spot_info where cid=?");
                     PreparedStatement delete = con.prepareStatement("delete from parking_spot_info where cid=?")) {
                 find.setInt(1, Integer.parseInt(username));
                 try (ResultSet r = find.executeQuery()) {
                     if (r.next()) {
                         pnum = r.getString(1);
                         snum = r.getString(2);
-                        bookInTime = r.getString(3);
-                        vtype = r.getString(4);
+                        bookDate = r.getString(3);
+                        bookInTime = r.getString(4);
+                        vtype = r.getString(5);
                     }
                 }
 
@@ -78,12 +83,10 @@ public class Leave_Customer extends HttpServlet {
             }
 
             float cost = resolveCost(con, pnum, vtype);
-            int bookedHour = Integer.parseInt(bookInTime.substring(0, 2));
-            int currentHour = LocalTime.now().getHour();
-            int hours = currentHour - bookedHour;
-            if (hours < 0) {
-                hours += 24;
-            }
+            LocalDate bookedDate = LocalDate.parse(bookDate);
+            LocalTime bookedTime = LocalTime.parse(bookInTime);
+            LocalDateTime bookedAt = LocalDateTime.of(bookedDate, bookedTime);
+            long hours = Math.max(0, Duration.between(bookedAt, LocalDateTime.now()).toHours());
             float bill = hours * cost;
 
             con.commit();

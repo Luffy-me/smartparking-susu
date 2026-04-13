@@ -31,11 +31,9 @@ public class Sign_in_Customer extends HttpServlet {
             ps.setInt(1, Integer.parseInt(custUname));
             try (ResultSet r = ps.executeQuery()) {
                 boolean found = r.next();
-                boolean valid = found && PasswordUtil.verify(custPwd, r.getString(5));
-                if (!found) {
-                    PasswordUtil.verify(custPwd, DUMMY_HASH);
-                }
-                if (!valid) {
+                String storedHash = found ? r.getString(5) : DUMMY_HASH;
+                boolean valid = PasswordUtil.verify(custPwd, storedHash);
+                if (!found || !valid) {
                     response.sendRedirect("Sign_in_customer.html");
                     return;
                 }
