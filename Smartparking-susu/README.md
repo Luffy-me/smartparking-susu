@@ -10,6 +10,21 @@ A very simple coding and design pattern has ben used to autoate the browsing thr
 - Database: MySQl
 - Server :  Apache Tomcat
 
+## Runtime configuration
+
+Database access is now configured via environment variables instead of hardcoded credentials:
+
+- `DB_URL` (default: `jdbc:mysql://localhost:3306/parking_system_db`)
+- `DB_USER` (default: `parking_app`)
+- `DB_PASSWORD` (default: empty)
+
+## Security hardening
+
+- Passwords are now stored using PBKDF2 hashing.
+- State-changing actions use POST with CSRF token validation.
+- User-facing dynamic content is HTML-escaped in servlet responses.
+- SQL statements with request/session inputs use parameterized queries.
+
 ## Features
 
 - **Login Register**: Users and parking lot owners can register into the portal and will be allowed to browse through the list of places-> parking lots-> parking spots
