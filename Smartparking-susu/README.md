@@ -16,7 +16,7 @@ Database access is now configured via environment variables instead of hardcoded
 
 - `DB_URL` (default: `jdbc:mysql://localhost:3306/parking_system_db`)
 - `DB_USER` (default: `parking_app`)
-- `DB_PASSWORD` (default: empty)
+- `DB_PASSWORD` (required; default placeholder is rejected at runtime)
 
 ## Security hardening
 

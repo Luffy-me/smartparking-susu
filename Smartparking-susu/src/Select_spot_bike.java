@@ -30,8 +30,7 @@ public class Select_spot_bike extends HttpServlet {
         out.println("<div id=\"text\">Logged in as " + SecurityUtil.escapeHtml((String) session.getAttribute("username")));
         out.println("<form method=\"post\" action=\"LogoutServlet\" style=\"display:inline;float:right;\">" + SecurityUtil.csrfHiddenInput(session)
                 + "<button type=\"submit\">Logout</button></form><br>");
-        out.println("<br> spot number selected in park number:" + SecurityUtil.escapeHtml(pnum) + ": "
-                + SecurityUtil.escapeHtml(snum));
+        out.println("<br> Spot selected successfully.");
 
         out.println("<h3>Park Now</h3>");
         out.println("<form method=\"post\" action=\"Final_Bike_Book\">" + SecurityUtil.csrfHiddenInput(session)

@@ -72,8 +72,8 @@ public class Parking_spot_info extends HttpServlet {
     }
 
     private void renderSpotButtons(PrintWriter out, PreparedStatement ps, int pnum, int cap) throws Exception {
-        Set<Integer> booked = new HashSet<Integer>();
-        Set<Integer> parked = new HashSet<Integer>();
+        Set<Integer> booked = new HashSet<>();
+        Set<Integer> parked = new HashSet<>();
         ps.setInt(1, pnum);
         try (ResultSet r2 = ps.executeQuery()) {
             while (r2.next()) {

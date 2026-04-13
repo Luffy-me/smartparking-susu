@@ -61,7 +61,11 @@ public class Final_Car_Book extends HttpServlet {
             } else {
                 String date = request.getParameter("date");
                 String hour = request.getParameter("hour");
-                String dateValue = LocalDate.now().withDayOfMonth(Integer.parseInt(date)).toString();
+                int selectedDay = Integer.parseInt(date);
+                LocalDate now = LocalDate.now();
+                LocalDate baseDate = selectedDay < now.getDayOfMonth() ? now.plusMonths(1) : now;
+                int dayInMonth = Math.min(selectedDay, baseDate.lengthOfMonth());
+                String dateValue = baseDate.withDayOfMonth(dayInMonth).toString();
                 try (PreparedStatement s = con.prepareStatement(
                         "insert into parking_spot_info values(?,?,?,?,?,?,0)")) {
                     s.setInt(1, Integer.parseInt(snum));

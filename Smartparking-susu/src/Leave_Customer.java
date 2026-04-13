@@ -80,7 +80,11 @@ public class Leave_Customer extends HttpServlet {
             float cost = resolveCost(con, pnum, vtype);
             int bookedHour = Integer.parseInt(bookInTime.substring(0, 2));
             int currentHour = LocalTime.now().getHour();
-            float bill = Math.max(0, currentHour - bookedHour) * cost;
+            int hours = currentHour - bookedHour;
+            if (hours < 0) {
+                hours += 24;
+            }
+            float bill = hours * cost;
 
             con.commit();
             out.println("<h3>You've to now pay " + bill + "<br><hr></h3>");

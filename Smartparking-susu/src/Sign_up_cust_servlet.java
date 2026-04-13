@@ -53,9 +53,8 @@ public class Sign_up_cust_servlet extends HttpServlet {
                 }
             }
 
-            String safeName = SecurityUtil.escapeHtml(name);
             out.println("<div id=\"text\">");
-            out.println(safeName + " added! Your customer ID is <span style=\"color:blue;font-size:30px;font-weight:bold\">"
+            out.println("Account created successfully. Your customer ID is <span style=\"color:blue;font-size:30px;font-weight:bold\">"
                     + customerId
                     + " </span>.Sign in with this customer ID as username and the entered password to login !<br><br><a style=\"color: orange;\" href=\"Sign_in_customer.html\">Login</a>");
             out.println("</div>");

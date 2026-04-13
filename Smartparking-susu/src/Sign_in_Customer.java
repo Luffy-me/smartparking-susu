@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Sign_in_Customer")
 public class Sign_in_Customer extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String DUMMY_HASH = "PBKDF2$65536$wQhM4+0Y9YtZHhVfGmWQAA==$cybxzSN8VUPoI6Pq4Jsh6M6w1jTzP1P0v6VNE2pSE+8=";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -29,13 +30,20 @@ public class Sign_in_Customer extends HttpServlet {
 
             ps.setInt(1, Integer.parseInt(custUname));
             try (ResultSet r = ps.executeQuery()) {
-                if (!r.next() || !PasswordUtil.verify(custPwd, r.getString(5))) {
+                boolean found = r.next();
+                boolean valid = found && PasswordUtil.verify(custPwd, r.getString(5));
+                if (!found) {
+                    PasswordUtil.verify(custPwd, DUMMY_HASH);
+                }
+                if (!valid) {
                     response.sendRedirect("Sign_in_customer.html");
                     return;
                 }
 
                 HttpSession session = request.getSession();
+                String customerId = r.getString(1);
                 session.setAttribute("username", r.getString(1));
+                session.setAttribute("customerId", customerId);
                 session.setMaxInactiveInterval(30 * 60);
                 SecurityUtil.ensureCsrfToken(session);
 
@@ -44,7 +52,7 @@ public class Sign_in_Customer extends HttpServlet {
                 String vehicleType = "0".equals(r.getString(4)) ? "Bike" : "Car";
 
                 out.println("<div id=\"text\">");
-                out.println("Logged in as " + SecurityUtil.escapeHtml(custUname));
+                out.println("Logged in as " + SecurityUtil.escapeHtml(customerId));
                 out.println("<form method=\"post\" action=\"LogoutServlet\" style=\"display:inline;float:right;\">"
                         + SecurityUtil.csrfHiddenInput(session)
                         + "<button type=\"submit\">Logout</button></form>");
