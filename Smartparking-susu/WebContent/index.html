@@ -233,11 +233,20 @@
         setActiveNav('find-parking');
       }
 
-      const indexSections = ['find-parking', 'how-it-works', 'locations', 'pricing', 'contact'].map(function (id) {
+      const sectionTargets = Array.from(new Set(
+        navLinks
+          .map(function (link) {
+            const href = link.getAttribute('href') || '';
+            return href.startsWith('#') ? href.slice(1) : null;
+          })
+          .filter(Boolean)
+      ));
+      const indexSections = sectionTargets.map(function (id) {
         return document.getElementById(id);
       }).filter(Boolean);
 
       if (currentPage === 'index.html' || currentPage === '') {
+        const sectionVisibilityThresholds = [0.35, 0.6];
         const observer = new IntersectionObserver(function (entries) {
           const visibleSections = entries.filter(function (entry) {
             return entry.isIntersecting;
@@ -248,7 +257,7 @@
           if (visibleSections.length > 0) {
             setActiveNav(visibleSections[0].target.id);
           }
-        }, { threshold: [0.35, 0.6] });
+        }, { threshold: sectionVisibilityThresholds });
 
         indexSections.forEach(function (section) {
           observer.observe(section);
