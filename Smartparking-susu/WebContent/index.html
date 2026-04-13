@@ -47,7 +47,7 @@
         <a class="nav-link rounded-lg px-3 py-2 font-medium text-slate-300 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="how-it-works" href="#how-it-works">How It Works</a>
         <a class="nav-link rounded-lg px-3 py-2 font-medium text-slate-300 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="locations" href="#locations">Locations</a>
         <a class="nav-link rounded-lg px-3 py-2 font-medium text-slate-300 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="pricing" href="#pricing">Pricing</a>
-        <a class="nav-link rounded-lg px-3 py-2 font-medium text-slate-300 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="contact" href="#contact">Contact</a>
+        <a class="nav-link rounded-lg px-3 py-2 font-medium text-slate-300 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="contact" href="contact.html">Contact</a>
         <a class="nav-link rounded-lg border border-slate-700 px-4 py-2 font-medium text-slate-200 hover:border-slate-500 hover:text-white" data-nav-link data-nav-target="sign-in" href="Sign_in_customer.html">Sign In</a>
       </nav>
     </div>
@@ -57,7 +57,7 @@
         <a class="nav-link mobile-nav-link flex items-center rounded-lg px-4 py-3 font-medium text-slate-200 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="how-it-works" href="#how-it-works">How It Works</a>
         <a class="nav-link mobile-nav-link flex items-center rounded-lg px-4 py-3 font-medium text-slate-200 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="locations" href="#locations">Locations</a>
         <a class="nav-link mobile-nav-link flex items-center rounded-lg px-4 py-3 font-medium text-slate-200 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="pricing" href="#pricing">Pricing</a>
-        <a class="nav-link mobile-nav-link flex items-center rounded-lg px-4 py-3 font-medium text-slate-200 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="contact" href="#contact">Contact</a>
+        <a class="nav-link mobile-nav-link flex items-center rounded-lg px-4 py-3 font-medium text-slate-200 hover:bg-slate-800/80 hover:text-white" data-nav-link data-nav-target="contact" href="contact.html">Contact</a>
         <a class="nav-link mobile-nav-link flex items-center rounded-lg border border-slate-700 px-4 py-3 font-medium text-slate-200 hover:border-slate-500 hover:text-white" data-nav-link data-nav-target="sign-in" href="Sign_in_customer.html">Sign In</a>
       </div>
     </nav>
@@ -229,6 +229,8 @@
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
       if (currentPage === 'Sign_in_customer.html') {
         setActiveNav('sign-in');
+      } else if (currentPage === 'contact.html') {
+        setActiveNav('contact');
       } else {
         setActiveNav('find-parking');
       }
@@ -246,7 +248,9 @@
       }).filter(Boolean);
 
       if (currentPage === 'index.html' || currentPage === '') {
-        const intersectionThresholds = [0.35, 0.6];
+        const PARTIAL_VISIBILITY_THRESHOLD = 0.35;
+        const MAJORITY_VISIBILITY_THRESHOLD = 0.6;
+        const intersectionThresholds = [PARTIAL_VISIBILITY_THRESHOLD, MAJORITY_VISIBILITY_THRESHOLD];
         const observer = new IntersectionObserver(function (entries) {
           const visibleSections = entries.filter(function (entry) {
             return entry.isIntersecting;
