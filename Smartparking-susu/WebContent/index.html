@@ -289,7 +289,7 @@
         { name: 'Mathikere Metro Lot', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, status: 'Almost Full' },
         { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, status: 'Full' },
         { name: 'Sanjay Nagar Plaza Lot', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, status: 'Available' },
-        { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: false, status: 'Almost Full' },
+        { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, status: 'Almost Full' },
         { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, status: 'Available' }
       ];
       const statusClassMap = {
@@ -301,7 +301,7 @@
       const parkingCardsContainer = document.getElementById('parking-cards');
       const inactiveFilterClasses = ['border-slate-700', 'bg-slate-900', 'text-slate-200'];
       const activeFilterClasses = ['border-brand-500', 'bg-brand-600', 'text-white'];
-      const defaultStatusClasses = 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40';
+      const defaultStatusClasses = 'bg-slate-500/15 text-slate-300 border border-slate-500/40';
       const htmlEscapeMap = {
         '&': '&amp;',
         '<': '&lt;',
