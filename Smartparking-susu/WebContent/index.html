@@ -193,7 +193,7 @@
   </style>
 </head>
 <body class="min-h-screen bg-slate-950 pb-20 text-slate-100 md:pb-0">
-  <a href="#find-parking" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">Skip to Find Parking</a>
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">Skip to main content</a>
   <header class="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
       <a href="index.html" class="flex items-center gap-3">
@@ -222,7 +222,7 @@
     </nav>
   </header>
 
-  <main class="space-y-14 pb-14 md:space-y-20 md:pb-20">
+  <main id="main-content" class="space-y-14 pb-14 md:space-y-20 md:pb-20">
     <section id="find-parking" class="section-shell grid scroll-mt-24 gap-10 py-20 md:grid-cols-2 md:py-24">
       <div class="space-y-6">
         <p class="ui-badge">Live availability across verified city lots</p>
@@ -230,7 +230,7 @@
         <p class="max-w-xl text-slate-300">Search by area, compare spot counts instantly, and choose the best lot before you drive in.</p>
         <p class="ui-badge">From ₹20/hour with transparent pricing</p>
         <p id="sign-in-note" class="text-xs text-slate-400">Search updates instantly. Sign in only when you're ready to reserve.</p>
-        <form id="hero-search-form" action="#" aria-describedby="sign-in-note" class="ui-card grid gap-4 rounded-2xl p-5 sm:grid-cols-2">
+        <form id="hero-search-form" aria-describedby="sign-in-note" class="ui-card grid gap-4 rounded-2xl p-5 sm:grid-cols-2">
           <label for="search-location" class="text-sm text-slate-300 sm:col-span-2">
             <span class="mb-1 block">Location</span>
             <input id="search-location" type="text" aria-label="Location" required placeholder="City, area, or landmark" class="ui-input w-full rounded-lg px-3 py-2 text-sm placeholder:text-slate-500" />
@@ -508,13 +508,16 @@
       });
 
       const parkingLots = [
-        { name: 'MSRIT Main Gate Lot', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, openHours: 'Open till 11:00 PM', status: 'Available' },
-        { name: 'Mathikere Metro Lot', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
-        { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, openHours: 'Open till 09:30 PM', status: 'Full' },
-        { name: 'Sanjay Nagar Plaza Lot', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, openHours: 'Open till 10:30 PM', status: 'Available' },
-        { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
-        { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, openHours: 'Open till 11:30 PM', status: 'Available' }
+        { name: 'MSRIT Main Gate Lot', keywords: 'msrit mattikere bengaluru bangalore college landmark', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, openHours: 'Open till 11:00 PM', status: 'Available' },
+        { name: 'Mathikere Metro Lot', keywords: 'mathikere metro bengaluru bangalore station landmark', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
+        { name: 'Yeshwanthpur Hub Parking', keywords: 'yeshwanthpur hub bengaluru bangalore transit landmark', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, openHours: 'Open till 09:30 PM', status: 'Full' },
+        { name: 'Sanjay Nagar Plaza Lot', keywords: 'sanjay nagar plaza bengaluru bangalore market landmark', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, openHours: 'Open till 10:30 PM', status: 'Available' },
+        { name: 'BEL Road Smart Park', keywords: 'bel road bengaluru bangalore tech park landmark', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
+        { name: 'Hebbal Flyover Parking', keywords: 'hebbal flyover bengaluru bangalore junction landmark', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, openHours: 'Open till 11:30 PM', status: 'Available' }
       ];
+      const MIN_BIKE_PRICE = 20;
+      const BIKE_PRICE_MULTIPLIER = 0.5;
+      const ELECTRIC_PRICE_MULTIPLIER = 1.2;
       const statusClassMap = {
         'Available': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
         'Almost Full': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
@@ -568,10 +571,10 @@
 
       const getVehiclePrice = function (lot, vehicleType) {
         if (vehicleType === 'bike') {
-          return Math.max(20, Math.round(lot.hourlyPrice * 0.5));
+          return Math.max(MIN_BIKE_PRICE, Math.round(lot.hourlyPrice * BIKE_PRICE_MULTIPLIER));
         }
         if (vehicleType === 'electric') {
-          return Math.round(lot.hourlyPrice * 1.2);
+          return Math.round(lot.hourlyPrice * ELECTRIC_PRICE_MULTIPLIER);
         }
         return lot.hourlyPrice;
       };
@@ -692,12 +695,13 @@
             const vehicleTypeInput = document.getElementById('search-vehicle-type');
             const locationValue = locationInput ? locationInput.value.trim().toLowerCase() : '';
             activeVehicleType = vehicleTypeInput ? vehicleTypeInput.value : 'car';
-            activeSearchLabel = locationValue || 'Nearby';
+            activeSearchLabel = (locationValue || 'Nearby').replace(/\s+/g, ' ').trim();
             if (!locationValue) {
               activeSearchLots = parkingLots.slice();
             } else {
               activeSearchLots = parkingLots.filter(function (lot) {
-                return lot.name.toLowerCase().indexOf(locationValue) !== -1;
+                const searchableText = (lot.name + ' ' + (lot.keywords || '')).toLowerCase();
+                return searchableText.indexOf(locationValue) !== -1;
               });
             }
             renderAvailabilityPreview(getFilteredLots(activeParkingFilter, activeSearchLots), activeSearchLabel);
