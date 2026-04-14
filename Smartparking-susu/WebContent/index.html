@@ -506,7 +506,9 @@
       };
       const buildMetricRow = function (iconKey, label, value) {
         const iconMarkup = metricIcons[iconKey] || '';
-        return '<li class="metric-row">' + iconMarkup + '<span><span class="text-slate-400">' + label + ':</span> ' + value + '</span></li>';
+        const safeLabel = escapeHtml(label);
+        const safeValue = escapeHtml(value);
+        return '<li class="metric-row">' + iconMarkup + '<span><span class="text-slate-400">' + safeLabel + ':</span> ' + safeValue + '</span></li>';
       };
 
       const updateActiveFilterButton = function (activeFilter) {
@@ -555,11 +557,11 @@
           const safeName = escapeHtml(lot.name);
           const safeStatus = escapeHtml(lot.status);
           const safeLotType = escapeHtml(lot.lotType);
-          const safeDistance = escapeHtml(lot.distanceKm.toFixed(1));
-          const safeHourlyPrice = escapeHtml(lot.hourlyPrice);
-          const safeAvailableSpots = escapeHtml(lot.availableSpots);
+          const distanceText = lot.distanceKm.toFixed(1) + ' km away';
+          const priceText = '₹' + lot.hourlyPrice + '/hr';
+          const availabilityText = lot.availableSpots + ' spots';
           const safeRating = escapeHtml(lot.rating.toFixed(1));
-          const safeOpenHours = escapeHtml(lot.openHours);
+          const timeText = lot.openHours;
           const reserveAction = lot.availableSpots > 0
             ? '<a href="Sign_in_customer.html" class="btn-primary mt-4 px-4 py-2.5 text-sm">Reserve Now</a>'
             : '<span role="status" class="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-400">Full - Not Available</span>';
@@ -569,10 +571,10 @@
               '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
             '</div>' +
             '<ul class="space-y-2 text-sm text-slate-300">' +
-              buildMetricRow('location', 'Location', safeDistance + ' km away') +
-              buildMetricRow('price', 'Price', '₹' + safeHourlyPrice + '/hr') +
-              buildMetricRow('time', 'Time', safeOpenHours) +
-              buildMetricRow('availability', 'Availability', safeAvailableSpots + ' spots') +
+              buildMetricRow('location', 'Location', distanceText) +
+              buildMetricRow('price', 'Price', priceText) +
+              buildMetricRow('time', 'Time', timeText) +
+              buildMetricRow('availability', 'Availability', availabilityText) +
               '<li><span class="text-slate-400">EV Charging:</span> ' + (lot.evCharging ? 'Yes' : 'No') + '</li>' +
               '<li><span class="text-slate-400">Lot Type:</span> ' + safeLotType + '</li>' +
               '<li><span class="text-slate-400">Rating:</span> ' + safeRating + ' / 5</li>' +
