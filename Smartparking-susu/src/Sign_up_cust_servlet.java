@@ -17,7 +17,7 @@ public class Sign_up_cust_servlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("Sign_up_customer.html");
+        response.sendRedirect(request.getContextPath() + "/Sign_up_customer.html");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
