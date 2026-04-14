@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +25,6 @@ public class Sign_in_Customer extends HttpServlet {
         String custUname = request.getParameter("uname");
         String custPwd = request.getParameter("pwd");
 
-        out.print("<!DOCTYPE html><html><head><title>that's my spot.com</title></head><body>");
-
         try (Connection con = DbUtil.getConnection();
                 PreparedStatement ps = con.prepareStatement("select * from customer_info where customer_id=?")) {
 
@@ -34,7 +34,7 @@ public class Sign_in_Customer extends HttpServlet {
                 String storedHash = found ? r.getString(5) : DUMMY_HASH;
                 boolean valid = PasswordUtil.verify(custPwd, storedHash);
                 if (!found || !valid) {
-                    response.sendRedirect("Sign_in_customer.html");
+                    response.sendRedirect("Sign_in_customer.html?error=invalid-credentials");
                     return;
                 }
 
@@ -49,6 +49,7 @@ public class Sign_in_Customer extends HttpServlet {
                 String vehicleNumber = SecurityUtil.escapeHtml(r.getString(3));
                 String vehicleType = "0".equals(r.getString(4)) ? "Bike" : "Car";
 
+                out.print("<!DOCTYPE html><html><head><title>that's my spot.com</title></head><body>");
                 out.println("<div id=\"text\">");
                 out.println("Logged in as " + SecurityUtil.escapeHtml(customerId));
                 out.println("<form method=\"post\" action=\"LogoutServlet\" style=\"display:inline;float:right;\">"
@@ -62,8 +63,15 @@ public class Sign_in_Customer extends HttpServlet {
             }
         } catch (Exception e) {
             getServletContext().log("Sign in failed", e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.println("Unable to sign in right now. Please try again later.");
+            if (!response.isCommitted()) {
+                response.sendRedirect("Sign_in_customer.html?error="
+                        + URLEncoder.encode("server", StandardCharsets.UTF_8.name()));
+            } else {
+                out.println("<div role=\"status\" style=\"margin-top:12px;color:#fca5a5;font-weight:600;\">"
+                        + "Unable to sign in right now. Please try again later."
+                        + "</div>");
+            }
+            return;
         }
 
         out.println("</body></html>");

@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,19 +18,16 @@ public class Sign_up_cust_servlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
 
         String name = request.getParameter("cust_name");
         String vehicleNumber = request.getParameter("V_number");
         String vehicleType = request.getParameter("V_type");
         String customerPassword = request.getParameter("cust_pwd");
 
-        out.print("<!DOCTYPE html><html><head><title>that's my spot.com</title></head><body>");
-
         try {
             int vtype = Integer.parseInt(vehicleType);
             if (vtype != 0 && vtype != 1) {
-                response.sendRedirect("Sign_up_customer.html");
+                response.sendRedirect("Sign_up_customer.html?error=invalid-vehicle-type");
                 return;
             }
 
@@ -53,21 +51,18 @@ public class Sign_up_cust_servlet extends HttpServlet {
                 }
             }
 
-            out.println("<div id=\"text\">");
-            out.println("Account created successfully. Your customer ID is <span style=\"color:blue;font-size:30px;font-weight:bold\">"
-                    + customerId
-                    + " </span>.Sign in with this customer ID as username and the entered password to login !<br><br><a style=\"color: orange;\" href=\"Sign_in_customer.html\">Login</a>");
-            out.println("</div>");
-
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
+            response.sendRedirect("Sign_up_customer.html?success=account-created#customerId="
+                    + URLEncoder.encode(String.valueOf(customerId), StandardCharsets.UTF_8.name()));
+            return;
         } catch (Exception e) {
             getServletContext().log("Sign up failed", e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.println("Unable to sign up right now. Please try again later.");
+            response.sendRedirect("Sign_up_customer.html?error="
+                    + URLEncoder.encode("server", StandardCharsets.UTF_8.name()));
+            return;
         }
-        out.println("</body></html>");
     }
 }
