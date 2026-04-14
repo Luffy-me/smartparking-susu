@@ -174,9 +174,26 @@
       color: #a5b4fc;
       flex-shrink: 0;
     }
+
+    .section-shell {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 72rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-950 pb-20 text-slate-100 md:pb-0">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">Skip to main content</a>
   <header class="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
       <a href="index.html" class="flex items-center gap-3">
@@ -205,15 +222,15 @@
     </nav>
   </header>
 
-  <main class="space-y-14 pb-14 md:space-y-20 md:pb-20">
-    <section id="find-parking" class="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:grid-cols-2 md:py-24">
+  <main id="main-content" class="space-y-14 pb-14 md:space-y-20 md:pb-20">
+    <section id="find-parking" class="section-shell grid scroll-mt-24 gap-10 py-20 md:grid-cols-2 md:py-24">
       <div class="space-y-6">
-        <p class="ui-badge">Real-time parking availability</p>
-        <h1 class="ui-h1">Find and reserve parking in seconds.</h1>
-        <p class="max-w-xl text-slate-300">Search nearby parking, compare live spot counts, and secure your slot before you arrive.</p>
-        <p class="ui-badge">Starting from ₹20/hour</p>
-        <p id="sign-in-note" class="text-xs text-slate-400">You'll need to sign in to view available parking.</p>
-        <form id="hero-search-form" action="Sign_in_customer.html" aria-describedby="sign-in-note" class="ui-card grid gap-4 rounded-2xl p-5 sm:grid-cols-2">
+        <p class="ui-badge">Live availability across verified city lots</p>
+        <h1 class="ui-h1">Stop circling. Find Parking first.</h1>
+        <p class="max-w-xl text-slate-300">Search by area, compare spot counts instantly, and choose the best lot before you drive in.</p>
+        <p class="ui-badge">From ₹20/hour with transparent pricing</p>
+        <p id="sign-in-note" class="text-xs text-slate-400">Search updates instantly. Sign in only when you're ready to reserve.</p>
+        <form id="hero-search-form" aria-describedby="sign-in-note" class="ui-card grid gap-4 rounded-2xl p-5 sm:grid-cols-2">
           <label for="search-location" class="text-sm text-slate-300 sm:col-span-2">
             <span class="mb-1 block">Location</span>
             <input id="search-location" type="text" aria-label="Location" required placeholder="City, area, or landmark" class="ui-input w-full rounded-lg px-3 py-2 text-sm placeholder:text-slate-500" />
@@ -244,33 +261,25 @@
             </select>
           </label>
           <button type="submit" class="btn-primary sm:col-span-2 px-5 py-3 text-center">Find Parking</button>
+          <a href="Sign_in_customer.html" class="sm:col-span-2 rounded-lg border border-slate-700 px-5 py-3 text-center text-sm font-semibold text-slate-200 hover:border-slate-500 hover:text-white">Sign in to reserve</a>
         </form>
       </div>
       <div id="availability-preview" class="ui-card space-y-4 rounded-2xl p-5">
         <img src="images/lot1.jpg" alt="Parking lot with marked parking spaces near the entrance" class="h-52 w-full rounded-xl object-cover md:h-56" />
         <div class="rounded-xl border border-slate-800 bg-slate-950 p-4">
-          <p class="text-xs uppercase tracking-wider text-brand-200">Sample available spots nearby</p>
-          <p class="mt-1 text-xs text-slate-400">Preview data for homepage experience.</p>
-          <ul class="mt-3 space-y-3 text-sm text-slate-200">
+          <p class="text-xs uppercase tracking-wider text-brand-200">Availability preview</p>
+          <p id="availability-summary" class="mt-1 text-xs text-slate-400" aria-live="polite">Showing nearby lots with live spot counts.</p>
+          <ul id="availability-preview-list" class="mt-3 space-y-3 text-sm text-slate-200" aria-live="polite">
             <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
-              <span>Nearby Zone A</span>
-              <span class="font-semibold text-emerald-300">12 spots</span>
-            </li>
-            <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
-              <span>Nearby Zone B</span>
-              <span class="font-semibold text-emerald-300">7 spots</span>
-            </li>
-            <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
-              <span>Nearby Zone C</span>
-              <span class="font-semibold text-amber-300">3 spots</span>
+              <span>Loading nearby lots…</span>
             </li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section id="how-it-works" class="mx-auto max-w-6xl px-4 py-14 md:py-16">
-      <div class="mb-6 flex items-center justify-between">
+    <section id="how-it-works" class="section-shell scroll-mt-24 py-14 md:py-16">
+      <div class="section-header">
         <h2 class="ui-h2">How It Works</h2>
         <span class="text-sm text-slate-400">Search, reserve, park</span>
       </div>
@@ -293,33 +302,33 @@
       </div>
     </section>
 
-    <section id="trust" class="mx-auto max-w-6xl px-4 py-14 md:py-16">
-      <div class="mb-6 flex items-center justify-between">
+    <section id="trust" class="section-shell py-14 md:py-16">
+      <div class="section-header">
         <h2 class="ui-h2">Why Drivers Trust Us</h2>
         <span class="text-sm text-slate-400">Reliable every day</span>
       </div>
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article class="ui-card rounded-xl p-5">
-          <h3 class="text-base font-semibold">Secure payments</h3>
-          <p class="mt-2 text-sm text-slate-300">Protected checkout and encrypted transactions keep your booking details safe.</p>
+          <h3 class="text-base font-semibold">4.8/5 driver reviews</h3>
+          <p class="mt-2 text-sm text-slate-300">Thousands of verified bookings and consistently high ratings across listed lots.</p>
         </article>
         <article class="ui-card rounded-xl p-5">
-          <h3 class="text-base font-semibold">Live availability</h3>
-          <p class="mt-2 text-sm text-slate-300">Spot counts update in real time so you can book with confidence.</p>
+          <h3 class="text-base font-semibold">Secure payments</h3>
+          <p class="mt-2 text-sm text-slate-300">Protected checkout and encrypted transactions keep your booking details safe.</p>
         </article>
         <article class="ui-card rounded-xl p-5">
           <h3 class="text-base font-semibold">Verified parking lots</h3>
           <p class="mt-2 text-sm text-slate-300">Every listed location is reviewed for accuracy, safety, and access quality.</p>
         </article>
         <article class="ui-card rounded-xl p-5">
-          <h3 class="text-base font-semibold">Easy cancellation</h3>
-          <p class="mt-2 text-sm text-slate-300">Plans changed? Cancel eligible bookings in a few taps.</p>
+          <h3 class="text-base font-semibold">Transparent pricing</h3>
+          <p class="mt-2 text-sm text-slate-300">Clear hourly rates and fees before checkout with no hidden parking surprises.</p>
         </article>
       </div>
     </section>
 
-    <section id="locations" class="mx-auto max-w-6xl border-t border-slate-800/70 px-4 py-16 md:py-20">
-      <div class="mb-6 flex items-center justify-between">
+    <section id="locations" class="section-shell scroll-mt-24 border-t border-slate-800/70 py-16 md:py-20">
+      <div class="section-header">
         <h2 class="ui-h2">Available Parking Near You</h2>
         <span class="text-sm text-slate-400">Compare and reserve quickly</span>
       </div>
@@ -334,8 +343,8 @@
       <div id="parking-cards" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-live="polite"></div>
     </section>
 
-    <section id="pricing" class="mx-auto max-w-6xl px-4 py-14 md:py-16">
-      <div class="mb-6 flex items-center justify-between">
+    <section id="pricing" class="section-shell scroll-mt-24 py-14 md:py-16">
+      <div class="section-header">
         <h2 class="ui-h2">Pricing</h2>
         <span class="text-sm text-slate-400">Simple hourly plans</span>
       </div>
@@ -358,7 +367,7 @@
       </div>
     </section>
 
-    <section id="contact" class="mx-auto max-w-6xl border-t border-slate-800/70 px-4 py-16 md:py-20">
+    <section id="contact" class="section-shell scroll-mt-24 border-t border-slate-800/70 py-16 md:py-20">
       <div class="ui-card rounded-2xl p-8">
         <h2 class="ui-h2">Contact</h2>
         <p class="mt-2 text-slate-300">Need help with booking, billing, or spot availability? Reach our team quickly.</p>
@@ -409,7 +418,10 @@
             <a href="contact.html#faq" aria-label="View frequently asked questions on the contact page" class="mt-2 inline-block text-base font-medium text-brand-100 hover:text-white">View FAQ</a>
           </article>
         </div>
-        <a href="contact.html" class="btn-primary mt-6 px-5 py-2.5">Open Contact Us Page</a>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="contact.html" class="btn-primary px-5 py-2.5">Open Contact Us Page</a>
+          <a href="contact.html#faq" class="rounded-lg border border-slate-700 px-5 py-2.5 font-semibold text-slate-200 hover:border-slate-500 hover:text-white">Read FAQ</a>
+        </div>
       </div>
     </section>
   </main>
@@ -496,13 +508,16 @@
       });
 
       const parkingLots = [
-        { name: 'MSRIT Main Gate Lot', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, openHours: 'Open till 11:00 PM', status: 'Available' },
-        { name: 'Mathikere Metro Lot', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
-        { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, openHours: 'Open till 09:30 PM', status: 'Full' },
-        { name: 'Sanjay Nagar Plaza Lot', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, openHours: 'Open till 10:30 PM', status: 'Available' },
-        { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
-        { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, openHours: 'Open till 11:30 PM', status: 'Available' }
+        { name: 'MSRIT Main Gate Lot', keywords: 'msrit mattikere bengaluru bangalore college landmark', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, openHours: 'Open till 11:00 PM', status: 'Available' },
+        { name: 'Mathikere Metro Lot', keywords: 'mathikere metro bengaluru bangalore station landmark', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
+        { name: 'Yeshwanthpur Hub Parking', keywords: 'yeshwanthpur hub bengaluru bangalore transit landmark', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, openHours: 'Open till 09:30 PM', status: 'Full' },
+        { name: 'Sanjay Nagar Plaza Lot', keywords: 'sanjay nagar plaza bengaluru bangalore market landmark', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, openHours: 'Open till 10:30 PM', status: 'Available' },
+        { name: 'BEL Road Smart Park', keywords: 'bel road bengaluru bangalore tech park landmark', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, openHours: 'Open till 10:00 PM', status: 'Almost Full' },
+        { name: 'Hebbal Flyover Parking', keywords: 'hebbal flyover bengaluru bangalore junction landmark', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, openHours: 'Open till 11:30 PM', status: 'Available' }
       ];
+      const MIN_BIKE_PRICE = 20;
+      const BIKE_PRICE_MULTIPLIER = 0.5;
+      const ELECTRIC_PRICE_MULTIPLIER = 1.2;
       const statusClassMap = {
         'Available': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
         'Almost Full': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
@@ -526,6 +541,9 @@
         return String(input).replace(/[&<>"']/g, function (character) {
           return htmlEscapeMap[character];
         });
+      };
+      const sanitizePlainText = function (input) {
+        return String(input || '').replace(/[<>"'&]/g, '').trim();
       };
       const metricIcons = Object.freeze({
         location: '📍',
@@ -554,8 +572,18 @@
         });
       };
 
-      const getFilteredLots = function (filterKey) {
-        const lots = parkingLots.slice();
+      const getVehiclePrice = function (lot, vehicleType) {
+        if (vehicleType === 'bike') {
+          return Math.max(MIN_BIKE_PRICE, Math.round(lot.hourlyPrice * BIKE_PRICE_MULTIPLIER));
+        }
+        if (vehicleType === 'electric') {
+          return Math.round(lot.hourlyPrice * ELECTRIC_PRICE_MULTIPLIER);
+        }
+        return lot.hourlyPrice;
+      };
+
+      const getFilteredLots = function (filterKey, sourceLots) {
+        const lots = (sourceLots || parkingLots).slice();
         if (filterKey === 'nearest') {
           return lots.sort(function (a, b) { return a.distanceKm - b.distanceKm; });
         }
@@ -577,11 +605,11 @@
         return lots;
       };
 
-      const renderParkingCards = function (filterKey) {
+      const renderParkingCards = function (filterKey, sourceLots, vehicleType) {
         if (!parkingCardsContainer) {
           return;
         }
-        const lots = getFilteredLots(filterKey);
+        const lots = getFilteredLots(filterKey, sourceLots);
         if (lots.length === 0) {
           parkingCardsContainer.innerHTML = '<p class="rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm text-slate-300">No parking lots match this filter right now.</p>';
           return;
@@ -593,7 +621,8 @@
           const safeStatus = escapeHtml(lot.status);
           const safeLotType = escapeHtml(lot.lotType);
           const distanceText = lot.distanceKm.toFixed(1) + ' km away';
-          const priceText = '₹' + lot.hourlyPrice + '/hr';
+          const displayPrice = getVehiclePrice(lot, vehicleType || 'car');
+          const priceText = '₹' + displayPrice + '/hr';
           const availabilityText = lot.availableSpots + ' spots';
           const safeRating = escapeHtml(lot.rating.toFixed(1));
           const timeText = lot.openHours;
@@ -621,28 +650,79 @@
 
       if (parkingCardsContainer) {
         let activeParkingFilter = 'nearest';
+        let activeSearchLots = parkingLots.slice();
+        let activeVehicleType = 'car';
+        let activeSearchLabel = 'Nearby';
         updateActiveFilterButton(activeParkingFilter);
-        renderParkingCards(activeParkingFilter);
+        renderParkingCards(activeParkingFilter, activeSearchLots, activeVehicleType);
         parkingFilters.forEach(function (button) {
           button.addEventListener('click', function () {
             activeParkingFilter = button.getAttribute('data-parking-filter');
             updateActiveFilterButton(activeParkingFilter);
-            renderParkingCards(activeParkingFilter);
+            renderParkingCards(activeParkingFilter, activeSearchLots, activeVehicleType);
+            renderAvailabilityPreview(getFilteredLots(activeParkingFilter, activeSearchLots), activeSearchLabel);
           });
         });
+
+        const availabilityPreviewList = document.getElementById('availability-preview-list');
+        const availabilitySummary = document.getElementById('availability-summary');
+        const availabilityStatusClassMap = {
+          high: 'text-emerald-300',
+          low: 'text-amber-300',
+          none: 'text-rose-300'
+        };
+        const renderAvailabilityPreview = function (lots, locationLabel) {
+          if (!availabilityPreviewList || !availabilitySummary) {
+            return;
+          }
+          const topLots = lots
+            .slice()
+            .sort(function (a, b) { return b.availableSpots - a.availableSpots; })
+            .slice(0, 3);
+          if (topLots.length === 0) {
+            availabilitySummary.textContent = 'No lots currently match your search. Try another area or filter.';
+            availabilityPreviewList.innerHTML = '<li class="rounded-lg border border-slate-800 px-3 py-2 text-sm text-slate-300">No matching lots right now.</li>';
+            return;
+          }
+          const safeLocationLabel = sanitizePlainText(locationLabel);
+          availabilitySummary.textContent = 'Top available lots for "' + safeLocationLabel + '"';
+          availabilityPreviewList.innerHTML = topLots.map(function (lot) {
+            const safeName = escapeHtml(lot.name);
+            const safeSpots = escapeHtml(lot.availableSpots + ' spots');
+            const statusKey = lot.availableSpots > 6 ? 'high' : (lot.availableSpots > 0 ? 'low' : 'none');
+            const statusTextClass = availabilityStatusClassMap[statusKey] || availabilityStatusClassMap.none;
+            return '<li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2"><span>' + safeName + '</span><span class="font-semibold ' + statusTextClass + '">' + safeSpots + '</span></li>';
+          }).join('');
+        };
+
+        renderAvailabilityPreview(activeSearchLots, activeSearchLabel);
+
+        const heroSearchForm = document.getElementById('hero-search-form');
+        if (heroSearchForm) {
+          heroSearchForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const locationInput = document.getElementById('search-location');
+            const vehicleTypeInput = document.getElementById('search-vehicle-type');
+            const locationValue = locationInput ? locationInput.value.trim().toLowerCase() : '';
+            activeVehicleType = vehicleTypeInput ? vehicleTypeInput.value : 'car';
+            activeSearchLabel = sanitizePlainText((locationValue || 'Nearby').replace(/\s+/g, ' '));
+            if (!locationValue) {
+              activeSearchLots = parkingLots.slice();
+            } else {
+              activeSearchLots = parkingLots.filter(function (lot) {
+                const searchableText = (lot.name + ' ' + (lot.keywords || '')).toLowerCase();
+                return searchableText.indexOf(locationValue) !== -1;
+              });
+            }
+            renderAvailabilityPreview(getFilteredLots(activeParkingFilter, activeSearchLots), activeSearchLabel);
+            renderParkingCards(activeParkingFilter, activeSearchLots, activeVehicleType);
+          });
+        }
       }
 
       const searchDateInput = document.getElementById('search-date');
       if (searchDateInput) {
         searchDateInput.min = new Date().toISOString().split('T')[0];
-      }
-
-      const heroSearchForm = document.getElementById('hero-search-form');
-      if (heroSearchForm) {
-        heroSearchForm.addEventListener('submit', function (event) {
-          event.preventDefault();
-          window.location.href = 'Sign_in_customer.html';
-        });
       }
     });
   </script>
@@ -655,10 +735,10 @@
     <div class="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-4">
       <div>
         <p class="text-base font-semibold text-white">That's My Spot</p>
-        <p class="mt-2 text-slate-400">Smarter parking for busy city life.</p>
+        <p class="mt-2 text-slate-400">Smarter parking for busy city life with live availability, secure checkout, and verified lots.</p>
       </div>
       <div>
-        <p class="font-semibold text-white">Quick Links</p>
+        <p class="font-semibold text-white">Explore</p>
         <ul class="mt-3 space-y-2">
           <li><a class="text-slate-300 hover:text-white" href="#find-parking" aria-label="Jump to Find Parking section">Find Parking</a></li>
           <li><a class="text-slate-300 hover:text-white" href="#how-it-works" aria-label="Jump to How It Works section">How It Works</a></li>
@@ -667,20 +747,21 @@
         </ul>
       </div>
       <div>
-        <p class="font-semibold text-white">Help</p>
+        <p class="font-semibold text-white">Contact</p>
         <ul class="mt-3 space-y-2">
+          <li><a class="text-slate-300 hover:text-white" href="tel:+919535701911" aria-label="Call support at +91 95357 01911">+91 95357 01911</a></li>
+          <li><a class="text-slate-300 hover:text-white" href="mailto:contact@thatsmyspot.com" aria-label="Email support at contact@thatsmyspot.com">contact@thatsmyspot.com</a></li>
           <li><a class="text-slate-300 hover:text-white" href="contact.html" aria-label="Open contact support page">Contact Support</a></li>
           <li><a class="text-slate-300 hover:text-white" href="contact.html#faq" aria-label="Open FAQ section on contact page">FAQ</a></li>
-          <li><a class="text-slate-300 hover:text-white" href="privacy.html" aria-label="Open privacy policy page">Privacy Policy</a></li>
-          <li><a class="text-slate-300 hover:text-white" href="terms.html" aria-label="Open terms and conditions page">Terms &amp; Conditions</a></li>
         </ul>
       </div>
       <div>
-        <p class="font-semibold text-white">Social</p>
+        <p class="font-semibold text-white">Company</p>
         <ul class="mt-3 space-y-2">
+          <li><a class="text-slate-300 hover:text-white" href="privacy.html" aria-label="Open privacy policy page">Privacy Policy</a></li>
+          <li><a class="text-slate-300 hover:text-white" href="terms.html" aria-label="Open terms and conditions page">Terms &amp; Conditions</a></li>
           <li><a class="text-slate-300 hover:text-white" href="social.html#instagram" aria-label="Visit our Instagram details">Instagram</a></li>
           <li><a class="text-slate-300 hover:text-white" href="social.html#x" aria-label="Visit our X details">X (Twitter)</a></li>
-          <li><a class="text-slate-300 hover:text-white" href="social.html#facebook" aria-label="Visit our Facebook details">Facebook</a></li>
           <li><a class="text-slate-300 hover:text-white" href="social.html#linkedin" aria-label="Visit our LinkedIn details">LinkedIn</a></li>
         </ul>
       </div>
