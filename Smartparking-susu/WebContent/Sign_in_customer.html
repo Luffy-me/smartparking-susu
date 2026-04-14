@@ -85,7 +85,7 @@
         }
       };
 
-      if (params.get('status') === 'signup-success' || params.get('success') === 'account-created') {
+      if (params.get('success') === 'account-created') {
         const customerId = params.get('customerId');
         const successText = customerId
           ? 'Account created successfully. Your customer ID is ' + customerId + '. Sign in to continue.'
