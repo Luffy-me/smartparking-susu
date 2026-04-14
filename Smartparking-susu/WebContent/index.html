@@ -542,6 +542,9 @@
           return htmlEscapeMap[character];
         });
       };
+      const sanitizePlainText = function (input) {
+        return String(input || '').replace(/[<>"'&]/g, '').trim();
+      };
       const metricIcons = Object.freeze({
         location: '📍',
         price: '₹',
@@ -663,6 +666,11 @@
 
         const availabilityPreviewList = document.getElementById('availability-preview-list');
         const availabilitySummary = document.getElementById('availability-summary');
+        const availabilityStatusClassMap = {
+          high: 'text-emerald-300',
+          low: 'text-amber-300',
+          none: 'text-rose-300'
+        };
         const renderAvailabilityPreview = function (lots, locationLabel) {
           if (!availabilityPreviewList || !availabilitySummary) {
             return;
@@ -676,11 +684,13 @@
             availabilityPreviewList.innerHTML = '<li class="rounded-lg border border-slate-800 px-3 py-2 text-sm text-slate-300">No matching lots right now.</li>';
             return;
           }
-          availabilitySummary.textContent = 'Top available lots for "' + locationLabel + '"';
+          const safeLocationLabel = sanitizePlainText(locationLabel);
+          availabilitySummary.textContent = 'Top available lots for "' + safeLocationLabel + '"';
           availabilityPreviewList.innerHTML = topLots.map(function (lot) {
             const safeName = escapeHtml(lot.name);
             const safeSpots = escapeHtml(lot.availableSpots + ' spots');
-            const statusTextClass = lot.availableSpots > 6 ? 'text-emerald-300' : (lot.availableSpots > 0 ? 'text-amber-300' : 'text-rose-300');
+            const statusKey = lot.availableSpots > 6 ? 'high' : (lot.availableSpots > 0 ? 'low' : 'none');
+            const statusTextClass = availabilityStatusClassMap[statusKey] || availabilityStatusClassMap.none;
             return '<li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2"><span>' + safeName + '</span><span class="font-semibold ' + statusTextClass + '">' + safeSpots + '</span></li>';
           }).join('');
         };
@@ -695,7 +705,7 @@
             const vehicleTypeInput = document.getElementById('search-vehicle-type');
             const locationValue = locationInput ? locationInput.value.trim().toLowerCase() : '';
             activeVehicleType = vehicleTypeInput ? vehicleTypeInput.value : 'car';
-            activeSearchLabel = (locationValue || 'Nearby').replace(/\s+/g, ' ').trim();
+            activeSearchLabel = sanitizePlainText((locationValue || 'Nearby').replace(/\s+/g, ' '));
             if (!locationValue) {
               activeSearchLots = parkingLots.slice();
             } else {
