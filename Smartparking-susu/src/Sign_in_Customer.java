@@ -18,6 +18,10 @@ public class Sign_in_Customer extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String DUMMY_HASH = "PBKDF2$65536$wQhM4+0Y9YtZHhVfGmWQAA==$cybxzSN8VUPoI6Pq4Jsh6M6w1jTzP1P0v6VNE2pSE+8=";
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("Sign_in_customer.html");
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
