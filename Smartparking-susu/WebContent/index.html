@@ -499,10 +499,10 @@
         });
       };
       const metricIcons = Object.freeze({
-        location: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-4 7-10a7 7 0 1 0-14 0c0 6 7 10 7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>',
-        price: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v5"/><path d="M2 12h20"/><path d="M6 16h.01"/><path d="M10 16h4"/></svg>',
-        time: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
-        availability: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/></svg>'
+        location: '📍',
+        price: '₹',
+        time: '🕒',
+        availability: '🅿️'
       });
       const getMetricIcon = function (iconKey) {
         if (!Object.prototype.hasOwnProperty.call(metricIcons, iconKey)) {
@@ -511,10 +511,10 @@
         return metricIcons[iconKey];
       };
       const buildMetricRow = function (iconKey, label, value) {
-        const iconMarkup = getMetricIcon(iconKey);
+        const iconSymbol = escapeHtml(getMetricIcon(iconKey));
         const safeLabel = escapeHtml(label);
         const safeValue = escapeHtml(value);
-        return '<li class="metric-row">' + iconMarkup + '<span><span class="text-slate-400">' + safeLabel + ':</span> ' + safeValue + '</span></li>';
+        return '<li class="metric-row"><span class="metric-icon" aria-hidden="true">' + iconSymbol + '</span><span><span class="text-slate-400">' + safeLabel + ':</span> ' + safeValue + '</span></li>';
       };
 
       const updateActiveFilterButton = function (activeFilter) {
@@ -577,7 +577,7 @@
               '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
             '</div>' +
             '<ul class="space-y-2 text-sm text-slate-300">' +
-              buildMetricRow('location', 'Location', distanceText) +
+              buildMetricRow('location', 'Distance', distanceText) +
               buildMetricRow('price', 'Price', priceText) +
               buildMetricRow('time', 'Time', timeText) +
               buildMetricRow('availability', 'Availability', availabilityText) +
