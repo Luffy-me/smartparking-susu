@@ -79,7 +79,7 @@
       const params = new URLSearchParams(window.location.search);
       const fields = [
         { id: 'cust_name', validate: function (value) { return value.trim().length >= 2; }, message: 'Enter at least 2 characters for customer name.' },
-        { id: 'V_number', validate: function (value) { return /^[A-Za-z0-9-]{4,10}$/.test(value.trim()); }, message: 'Vehicle number must be 4-10 letters/numbers.' },
+        { id: 'V_number', validate: function (value) { return /^[A-Za-z0-9-]{4,10}$/.test(value.trim()); }, message: 'Vehicle number must be 4-10 characters (letters, numbers, or hyphens).' },
         { id: 'V_type', validate: function (value) { return value.trim() === '0' || value.trim() === '1'; }, message: 'Vehicle type must be 0 (Bike) or 1 (Car).' },
         { id: 'cust_pwd', validate: function (value) { return value.trim().length >= 8; }, message: 'Password must be at least 8 characters long.' }
       ];
@@ -98,11 +98,15 @@
       };
 
       if (params.get('success') === 'account-created') {
-        const customerId = params.get('customerId');
+        const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+        const customerId = hashParams.get('customerId');
         const message = customerId
           ? 'Account created successfully. Your customer ID is ' + customerId + '. Please sign in from the button above.'
           : 'Account created successfully. Please sign in.';
         setStatus(message, false);
+        if (customerId) {
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
       }
 
       if (params.get('error') === 'invalid-vehicle-type') {

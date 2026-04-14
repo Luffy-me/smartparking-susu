@@ -118,8 +118,10 @@
         clearFieldError(uname, unameError);
         clearFieldError(pwd, pwdError);
 
-        if (!/^\d+$/.test(uname.value.trim())) {
-          showFieldError(uname, unameError, 'Customer ID must contain numbers only.');
+        const trimmedCustomerId = uname.value.trim();
+        const parsedCustomerId = Number(trimmedCustomerId);
+        if (!/^\d+$/.test(trimmedCustomerId) || !Number.isInteger(parsedCustomerId) || parsedCustomerId <= 0) {
+          showFieldError(uname, unameError, 'Customer ID must be a positive number.');
           valid = false;
         }
 

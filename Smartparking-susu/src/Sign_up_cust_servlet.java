@@ -55,7 +55,7 @@ public class Sign_up_cust_servlet extends HttpServlet {
             if (session != null) {
                 session.invalidate();
             }
-            response.sendRedirect("Sign_up_customer.html?success=account-created&customerId="
+            response.sendRedirect("Sign_up_customer.html?success=account-created#customerId="
                     + URLEncoder.encode(String.valueOf(customerId), StandardCharsets.UTF_8.name()));
             return;
         } catch (Exception e) {

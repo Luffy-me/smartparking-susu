@@ -67,7 +67,9 @@ public class Sign_in_Customer extends HttpServlet {
                 response.sendRedirect("Sign_in_customer.html?error="
                         + URLEncoder.encode("server", StandardCharsets.UTF_8.name()));
             } else {
-                out.println("Unable to sign in right now. Please try again later.");
+                out.println("<div role=\"status\" style=\"margin-top:12px;color:#fca5a5;font-weight:600;\">"
+                        + "Unable to sign in right now. Please try again later."
+                        + "</div>");
             }
             return;
         }
