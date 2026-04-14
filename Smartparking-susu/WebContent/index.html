@@ -297,6 +297,7 @@
         'Almost Full': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
         'Full': 'bg-rose-500/15 text-rose-300 border border-rose-500/40'
       };
+      const allowedStatusClasses = Object.values(statusClassMap);
       const parkingFilters = Array.from(document.querySelectorAll('[data-parking-filter]'));
       const parkingCardsContainer = document.getElementById('parking-cards');
       const inactiveFilterClasses = ['border-slate-700', 'bg-slate-900', 'text-slate-200'];
@@ -309,11 +310,11 @@
         '"': '&quot;',
         '\'': '&#39;'
       };
-      const escapeHtml = function (value) {
-        if (value === null || value === undefined) {
+      const escapeHtml = function (input) {
+        if (input === null || input === undefined) {
           return '';
         }
-        return String(value).replace(/[&<>"']/g, function (character) {
+        return String(input).replace(/[&<>"']/g, function (character) {
           return htmlEscapeMap[character];
         });
       };
@@ -360,10 +361,15 @@
           return;
         }
         parkingCardsContainer.innerHTML = lots.map(function (lot) {
-          const statusClasses = statusClassMap[lot.status] || defaultStatusClasses;
+          const mappedStatusClasses = statusClassMap[lot.status];
+          const statusClasses = allowedStatusClasses.indexOf(mappedStatusClasses) !== -1 ? mappedStatusClasses : defaultStatusClasses;
           const safeName = escapeHtml(lot.name);
           const safeStatus = escapeHtml(lot.status);
           const safeLotType = escapeHtml(lot.lotType);
+          const safeDistance = escapeHtml(lot.distanceKm.toFixed(1));
+          const safeHourlyPrice = escapeHtml(lot.hourlyPrice);
+          const safeAvailableSpots = escapeHtml(lot.availableSpots);
+          const safeRating = escapeHtml(lot.rating.toFixed(1));
           const reserveAction = lot.availableSpots > 0
             ? '<a href="Sign_in_customer.html" class="mt-4 inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-500">Reserve Now</a>'
             : '<span role="status" class="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-400">Full - Not Available</span>';
@@ -373,12 +379,12 @@
               '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
             '</div>' +
             '<ul class="space-y-1.5 text-sm text-slate-300">' +
-              '<li><span class="text-slate-400">Distance:</span> ' + lot.distanceKm.toFixed(1) + ' km</li>' +
-              '<li><span class="text-slate-400">Hourly Price:</span> ₹' + lot.hourlyPrice + '/hr</li>' +
-              '<li><span class="text-slate-400">Available Spots:</span> ' + lot.availableSpots + '</li>' +
+              '<li><span class="text-slate-400">Distance:</span> ' + safeDistance + ' km</li>' +
+              '<li><span class="text-slate-400">Hourly Price:</span> ₹' + safeHourlyPrice + '/hr</li>' +
+              '<li><span class="text-slate-400">Available Spots:</span> ' + safeAvailableSpots + '</li>' +
               '<li><span class="text-slate-400">EV Charging:</span> ' + (lot.evCharging ? 'Yes' : 'No') + '</li>' +
               '<li><span class="text-slate-400">Lot Type:</span> ' + safeLotType + '</li>' +
-              '<li><span class="text-slate-400">Rating:</span> ' + lot.rating.toFixed(1) + ' / 5</li>' +
+              '<li><span class="text-slate-400">Rating:</span> ' + safeRating + ' / 5</li>' +
             '</ul>' +
             reserveAction +
           '</article>';
