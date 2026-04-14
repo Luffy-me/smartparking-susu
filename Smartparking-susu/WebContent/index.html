@@ -152,17 +152,18 @@
 
     <section id="locations" class="mx-auto max-w-6xl px-4 py-12">
       <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-semibold">Locations</h2>
-        <span class="text-sm text-slate-400">Popular parking zones</span>
+        <h2 class="text-2xl font-semibold">Available Parking Near You</h2>
+        <span class="text-sm text-slate-400">Compare and reserve quickly</span>
       </div>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <img src="images/lot1.jpg" alt="Lot 1" class="h-52 w-full rounded-xl object-cover" />
-        <img src="images/lot2.jpg" alt="Lot 2" class="h-52 w-full rounded-xl object-cover" />
-        <img src="images/lot3.jpg" alt="Lot 3" class="h-52 w-full rounded-xl object-cover" />
-        <img src="images/lot4.jpg" alt="Lot 4" class="h-52 w-full rounded-xl object-cover" />
-        <img src="images/lot5.jpg" alt="Lot 5" class="h-52 w-full rounded-xl object-cover" />
-        <img src="images/lot6.jpg" alt="Lot 6" class="h-52 w-full rounded-xl object-cover" />
+      <div id="parking-filters" class="mb-6 flex flex-wrap gap-2" role="group" aria-label="Parking filters">
+        <button type="button" aria-pressed="true" data-parking-filter="nearest" class="rounded-full border border-brand-500 bg-brand-600 px-3 py-1.5 text-sm font-medium text-white">Nearest</button>
+        <button type="button" aria-pressed="false" data-parking-filter="cheapest" class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:text-white">Cheapest</button>
+        <button type="button" aria-pressed="false" data-parking-filter="open-now" class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:text-white">Open Now</button>
+        <button type="button" aria-pressed="false" data-parking-filter="ev-charging" class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:text-white">EV Charging</button>
+        <button type="button" aria-pressed="false" data-parking-filter="covered-parking" class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:text-white">Covered Parking</button>
+        <button type="button" aria-pressed="false" data-parking-filter="highest-rated" class="rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm font-medium text-slate-200 hover:border-slate-500 hover:text-white">Highest Rated</button>
       </div>
+      <div id="parking-cards" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-live="polite"></div>
     </section>
 
     <section id="pricing" class="mx-auto max-w-6xl px-4 py-12">
@@ -282,6 +283,126 @@
           }
         });
       });
+
+      const parkingLots = [
+        { name: 'MSRIT Main Gate Lot', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, status: 'Available' },
+        { name: 'Mathikere Metro Lot', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, status: 'Almost Full' },
+        { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, status: 'Full' },
+        { name: 'Sanjay Nagar Plaza Lot', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, status: 'Available' },
+        { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: true, status: 'Almost Full' },
+        { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, status: 'Available' }
+      ];
+      const statusClassMap = {
+        'Available': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
+        'Almost Full': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
+        'Full': 'bg-rose-500/15 text-rose-300 border border-rose-500/40'
+      };
+      const allowedStatusClasses = Object.values(statusClassMap);
+      const parkingFilters = Array.from(document.querySelectorAll('[data-parking-filter]'));
+      const parkingCardsContainer = document.getElementById('parking-cards');
+      const inactiveFilterClasses = ['border-slate-700', 'bg-slate-900', 'text-slate-200'];
+      const activeFilterClasses = ['border-brand-500', 'bg-brand-600', 'text-white'];
+      const defaultStatusClasses = 'bg-slate-500/15 text-slate-300 border border-slate-500/40';
+      const htmlEscapeMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        '\'': '&#39;'
+      };
+      const escapeHtml = function (input) {
+        if (input === null || input === undefined) {
+          return '';
+        }
+        return String(input).replace(/[&<>"']/g, function (character) {
+          return htmlEscapeMap[character];
+        });
+      };
+
+      const updateActiveFilterButton = function (activeFilter) {
+        parkingFilters.forEach(function (button) {
+          const isActive = button.getAttribute('data-parking-filter') === activeFilter;
+          button.classList.remove.apply(button.classList, isActive ? inactiveFilterClasses : activeFilterClasses);
+          button.classList.add.apply(button.classList, isActive ? activeFilterClasses : inactiveFilterClasses);
+          button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+      };
+
+      const getFilteredLots = function (filterKey) {
+        const lots = parkingLots.slice();
+        if (filterKey === 'nearest') {
+          return lots.sort(function (a, b) { return a.distanceKm - b.distanceKm; });
+        }
+        if (filterKey === 'cheapest') {
+          return lots.sort(function (a, b) { return a.hourlyPrice - b.hourlyPrice; });
+        }
+        if (filterKey === 'open-now') {
+          return lots.filter(function (lot) { return lot.openNow; });
+        }
+        if (filterKey === 'ev-charging') {
+          return lots.filter(function (lot) { return lot.evCharging; });
+        }
+        if (filterKey === 'covered-parking') {
+          return lots.filter(function (lot) { return lot.lotType === 'Covered'; });
+        }
+        if (filterKey === 'highest-rated') {
+          return lots.sort(function (a, b) { return b.rating - a.rating; });
+        }
+        return lots;
+      };
+
+      const renderParkingCards = function (filterKey) {
+        if (!parkingCardsContainer) {
+          return;
+        }
+        const lots = getFilteredLots(filterKey);
+        if (lots.length === 0) {
+          parkingCardsContainer.innerHTML = '<p class="rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm text-slate-300">No parking lots match this filter right now.</p>';
+          return;
+        }
+        parkingCardsContainer.innerHTML = lots.map(function (lot) {
+          const mappedStatusClasses = statusClassMap[lot.status];
+          const statusClasses = allowedStatusClasses.indexOf(mappedStatusClasses) !== -1 ? mappedStatusClasses : defaultStatusClasses;
+          const safeName = escapeHtml(lot.name);
+          const safeStatus = escapeHtml(lot.status);
+          const safeLotType = escapeHtml(lot.lotType);
+          const safeDistance = escapeHtml(lot.distanceKm.toFixed(1));
+          const safeHourlyPrice = escapeHtml(lot.hourlyPrice);
+          const safeAvailableSpots = escapeHtml(lot.availableSpots);
+          const safeRating = escapeHtml(lot.rating.toFixed(1));
+          const reserveAction = lot.availableSpots > 0
+            ? '<a href="Sign_in_customer.html" class="mt-4 inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-500">Reserve Now</a>'
+            : '<span role="status" class="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-400">Full - Not Available</span>';
+          return '<article class="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 p-5">' +
+            '<div class="mb-3 flex items-start justify-between gap-3">' +
+              '<h3 class="text-base font-semibold">' + safeName + '</h3>' +
+              '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
+            '</div>' +
+            '<ul class="space-y-1.5 text-sm text-slate-300">' +
+              '<li><span class="text-slate-400">Distance:</span> ' + safeDistance + ' km</li>' +
+              '<li><span class="text-slate-400">Hourly Price:</span> ₹' + safeHourlyPrice + '/hr</li>' +
+              '<li><span class="text-slate-400">Available Spots:</span> ' + safeAvailableSpots + '</li>' +
+              '<li><span class="text-slate-400">EV Charging:</span> ' + (lot.evCharging ? 'Yes' : 'No') + '</li>' +
+              '<li><span class="text-slate-400">Lot Type:</span> ' + safeLotType + '</li>' +
+              '<li><span class="text-slate-400">Rating:</span> ' + safeRating + ' / 5</li>' +
+            '</ul>' +
+            reserveAction +
+          '</article>';
+        }).join('');
+      };
+
+      if (parkingCardsContainer) {
+        let activeParkingFilter = 'nearest';
+        updateActiveFilterButton(activeParkingFilter);
+        renderParkingCards(activeParkingFilter);
+        parkingFilters.forEach(function (button) {
+          button.addEventListener('click', function () {
+            activeParkingFilter = button.getAttribute('data-parking-filter');
+            updateActiveFilterButton(activeParkingFilter);
+            renderParkingCards(activeParkingFilter);
+          });
+        });
+      }
 
       const searchDateInput = document.getElementById('search-date');
       if (searchDateInput) {
