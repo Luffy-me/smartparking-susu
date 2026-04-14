@@ -41,6 +41,20 @@
       color: #ffffff;
     }
 
+    .ui-h1 {
+      font-size: 2.25rem;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+    }
+
+    @media (min-width: 768px) {
+      .ui-h1 {
+        font-size: 3rem;
+      }
+    }
+
     .ui-card {
       border: 1px solid rgba(51, 65, 85, 0.85);
       background: rgba(15, 23, 42, 0.9);
@@ -162,11 +176,11 @@
     </nav>
   </header>
 
-  <main class="space-y-16 pb-14 md:space-y-24 md:pb-20">
+  <main class="space-y-14 pb-14 md:space-y-20 md:pb-20">
     <section id="find-parking" class="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:grid-cols-2 md:py-24">
       <div class="space-y-6">
         <p class="ui-badge">Real-time parking availability</p>
-        <h1 class="text-4xl font-bold leading-tight tracking-tight md:text-5xl">Find and reserve parking in seconds.</h1>
+        <h1 class="ui-h1">Find and reserve parking in seconds.</h1>
         <p class="max-w-xl text-slate-300">Search nearby parking, compare live spot counts, and secure your slot before you arrive.</p>
         <p class="ui-badge">Starting from ₹20/hour</p>
         <p id="sign-in-note" class="text-xs text-slate-400">You'll need to sign in to view available parking.</p>
@@ -211,15 +225,15 @@
           <ul class="mt-3 space-y-3 text-sm text-slate-200">
             <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
               <span>Nearby Zone A</span>
-              <span class="font-semibold text-brand-200">12 spots</span>
+              <span class="font-semibold text-emerald-300">12 spots</span>
             </li>
             <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
               <span>Nearby Zone B</span>
-              <span class="font-semibold text-brand-200">7 spots</span>
+              <span class="font-semibold text-amber-300">7 spots</span>
             </li>
             <li class="flex items-center justify-between rounded-lg border border-slate-800 px-3 py-2">
               <span>Nearby Zone C</span>
-              <span class="font-semibold text-brand-200">3 spots</span>
+              <span class="font-semibold text-rose-300">3 spots</span>
             </li>
           </ul>
         </div>
@@ -461,9 +475,9 @@
         { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, openHours: 'Open till 11:30 PM', status: 'Available' }
       ];
       const statusClassMap = {
-        'Available': 'bg-brand-500/15 text-brand-100 border border-brand-500/40',
-        'Almost Full': 'bg-slate-500/15 text-slate-200 border border-slate-500/40',
-        'Full': 'bg-slate-700/30 text-slate-300 border border-slate-600/60'
+        'Available': 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/40',
+        'Almost Full': 'bg-amber-500/15 text-amber-300 border border-amber-500/40',
+        'Full': 'bg-rose-500/15 text-rose-300 border border-rose-500/40'
       };
       const allowedStatusClasses = Object.values(statusClassMap);
       const parkingFilters = Array.from(document.querySelectorAll('[data-parking-filter]'));
@@ -483,6 +497,16 @@
         return String(input).replace(/[&<>"']/g, function (character) {
           return htmlEscapeMap[character];
         });
+      };
+      const metricIcons = {
+        location: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-4 7-10a7 7 0 1 0-14 0c0 6 7 10 7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>',
+        price: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v5"/><path d="M2 12h20"/><path d="M6 16h.01"/><path d="M10 16h4"/></svg>',
+        time: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+        availability: '<svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/></svg>'
+      };
+      const buildMetricRow = function (iconKey, label, value) {
+        const iconMarkup = metricIcons[iconKey] || '';
+        return '<li class="metric-row">' + iconMarkup + '<span><span class="text-slate-400">' + label + ':</span> ' + value + '</span></li>';
       };
 
       const updateActiveFilterButton = function (activeFilter) {
@@ -545,10 +569,10 @@
               '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
             '</div>' +
             '<ul class="space-y-2 text-sm text-slate-300">' +
-              '<li class="metric-row"><svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-4 7-10a7 7 0 1 0-14 0c0 6 7 10 7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg><span><span class="text-slate-400">Location:</span> ' + safeDistance + ' km away</span></li>' +
-              '<li class="metric-row"><svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v5"/><path d="M2 12h20"/><path d="M6 16h.01"/><path d="M10 16h4"/></svg><span><span class="text-slate-400">Price:</span> ₹' + safeHourlyPrice + '/hr</span></li>' +
-              '<li class="metric-row"><svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span><span class="text-slate-400">Time:</span> ' + safeOpenHours + '</span></li>' +
-              '<li class="metric-row"><svg class="metric-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/></svg><span><span class="text-slate-400">Availability:</span> ' + safeAvailableSpots + ' spots</span></li>' +
+              buildMetricRow('location', 'Location', safeDistance + ' km away') +
+              buildMetricRow('price', 'Price', '₹' + safeHourlyPrice + '/hr') +
+              buildMetricRow('time', 'Time', safeOpenHours) +
+              buildMetricRow('availability', 'Availability', safeAvailableSpots + ' spots') +
               '<li><span class="text-slate-400">EV Charging:</span> ' + (lot.evCharging ? 'Yes' : 'No') + '</li>' +
               '<li><span class="text-slate-400">Lot Type:</span> ' + safeLotType + '</li>' +
               '<li><span class="text-slate-400">Rating:</span> ' + safeRating + ' / 5</li>' +
