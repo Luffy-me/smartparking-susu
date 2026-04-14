@@ -287,7 +287,7 @@
       const parkingLots = [
         { name: 'MSRIT Main Gate Lot', distanceKm: 0.3, hourlyPrice: 60, availableSpots: 14, evCharging: true, lotType: 'Covered', rating: 4.8, openNow: true, status: 'Available' },
         { name: 'Mathikere Metro Lot', distanceKm: 0.7, hourlyPrice: 45, availableSpots: 5, evCharging: false, lotType: 'Open', rating: 4.5, openNow: true, status: 'Almost Full' },
-        { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: true, status: 'Full' },
+        { name: 'Yeshwanthpur Hub Parking', distanceKm: 1.2, hourlyPrice: 40, availableSpots: 0, evCharging: true, lotType: 'Open', rating: 4.2, openNow: false, status: 'Full' },
         { name: 'Sanjay Nagar Plaza Lot', distanceKm: 1.8, hourlyPrice: 55, availableSpots: 9, evCharging: false, lotType: 'Covered', rating: 4.6, openNow: true, status: 'Available' },
         { name: 'BEL Road Smart Park', distanceKm: 2.1, hourlyPrice: 35, availableSpots: 3, evCharging: true, lotType: 'Covered', rating: 4.7, openNow: false, status: 'Almost Full' },
         { name: 'Hebbal Flyover Parking', distanceKm: 2.8, hourlyPrice: 30, availableSpots: 18, evCharging: false, lotType: 'Open', rating: 4.1, openNow: true, status: 'Available' }
@@ -301,6 +301,17 @@
       const parkingCardsContainer = document.getElementById('parking-cards');
       const inactiveFilterClasses = ['border-slate-700', 'bg-slate-900', 'text-slate-200'];
       const activeFilterClasses = ['border-brand-500', 'bg-brand-600', 'text-white'];
+      const escapeHtml = function (value) {
+        return String(value).replace(/[&<>"']/g, function (character) {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            '\'': '&#39;'
+          }[character];
+        });
+      };
 
       const updateActiveFilterButton = function (activeFilter) {
         parkingFilters.forEach(function (button) {
@@ -343,21 +354,27 @@
           return;
         }
         parkingCardsContainer.innerHTML = lots.map(function (lot) {
-          const statusClasses = statusClassMap[lot.status] || statusClassMap.Available;
+          const statusClasses = statusClassMap[lot.status] || statusClassMap['Available'];
+          const safeName = escapeHtml(lot.name);
+          const safeStatus = escapeHtml(lot.status);
+          const safeLotType = escapeHtml(lot.lotType);
+          const reserveAction = lot.availableSpots > 0
+            ? '<a href="Sign_in_customer.html" class="mt-4 inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-500">Reserve Now</a>'
+            : '<span aria-disabled="true" class="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-400">Full - Not Available</span>';
           return '<article class="flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 p-5">' +
             '<div class="mb-3 flex items-start justify-between gap-3">' +
-              '<h3 class="text-base font-semibold">' + lot.name + '</h3>' +
-              '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + lot.status + '</span>' +
+              '<h3 class="text-base font-semibold">' + safeName + '</h3>' +
+              '<span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ' + statusClasses + '">' + safeStatus + '</span>' +
             '</div>' +
             '<ul class="space-y-1.5 text-sm text-slate-300">' +
               '<li><span class="text-slate-400">Distance:</span> ' + lot.distanceKm.toFixed(1) + ' km</li>' +
               '<li><span class="text-slate-400">Hourly Price:</span> ₹' + lot.hourlyPrice + '/hr</li>' +
               '<li><span class="text-slate-400">Available Spots:</span> ' + lot.availableSpots + '</li>' +
               '<li><span class="text-slate-400">EV Charging:</span> ' + (lot.evCharging ? 'Yes' : 'No') + '</li>' +
-              '<li><span class="text-slate-400">Lot Type:</span> ' + lot.lotType + '</li>' +
+              '<li><span class="text-slate-400">Lot Type:</span> ' + safeLotType + '</li>' +
               '<li><span class="text-slate-400">Rating:</span> ' + lot.rating.toFixed(1) + ' / 5</li>' +
             '</ul>' +
-            '<a href="Sign_in_customer.html" class="mt-4 inline-flex items-center justify-center rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-500">Reserve Now</a>' +
+            reserveAction +
           '</article>';
         }).join('');
       };
