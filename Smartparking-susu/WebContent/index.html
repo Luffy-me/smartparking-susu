@@ -23,6 +23,26 @@
     }
   </script>
   <style>
+    a,
+    button {
+      min-width: 44px;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid rgba(129, 140, 248, 0.95);
+      outline-offset: 2px;
+    }
+
+    a:active,
+    button:active {
+      transform: translateY(1px);
+    }
+
     .nav-link.is-active {
       color: #ffffff;
       background: rgba(79, 70, 229, 0.22);
@@ -110,6 +130,10 @@
       transform: translateY(-1px);
     }
 
+    .btn-primary:active {
+      background: #3730a3;
+    }
+
     .filter-btn {
       border-radius: 0.75rem;
       border: 1px solid rgba(51, 65, 85, 0.95);
@@ -124,6 +148,11 @@
     .filter-btn:hover {
       border-color: rgba(99, 102, 241, 0.5);
       color: #ffffff;
+    }
+
+    .filter-btn:active {
+      border-color: #818cf8;
+      background: rgba(67, 56, 202, 0.28);
     }
 
     .filter-btn.is-active {
@@ -151,7 +180,7 @@
   <header class="sticky top-0 z-20 border-b border-slate-800 bg-slate-950/90 backdrop-blur">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
       <a href="index.html" class="flex items-center gap-3">
-        <img src="images/logo.jpg" alt="Logo" class="h-10 w-10 rounded-xl object-cover" />
+        <img src="images/logo.jpg" alt="That's My Spot logo" class="h-10 w-10 rounded-xl object-cover" />
         <span class="text-lg font-semibold tracking-wide">That's My Spot</span>
       </a>
       <button id="mobile-menu-toggle" type="button" class="rounded-lg border border-slate-700 px-3 py-2 text-sm font-medium text-slate-200 hover:border-slate-500 md:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
@@ -218,7 +247,7 @@
         </form>
       </div>
       <div id="availability-preview" class="ui-card space-y-4 rounded-2xl p-5">
-        <img src="images/lot1.jpg" alt="Parking lot map preview" class="h-52 w-full rounded-xl object-cover md:h-56" />
+        <img src="images/lot1.jpg" alt="Parking lot with marked parking spaces near the entrance" class="h-52 w-full rounded-xl object-cover md:h-56" />
         <div class="rounded-xl border border-slate-800 bg-slate-950 p-4">
           <p class="text-xs uppercase tracking-wider text-brand-200">Sample available spots nearby</p>
           <p class="mt-1 text-xs text-slate-400">Preview data for homepage experience.</p>

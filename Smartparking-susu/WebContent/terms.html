@@ -5,20 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms & Conditions | That's My Spot</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    a,
+    button {
+      min-width: 44px;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid rgba(129, 140, 248, 0.95);
+      outline-offset: 2px;
+    }
+
+    a:active,
+    button:active {
+      transform: translateY(1px);
+    }
+  </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100">
   <main class="mx-auto max-w-4xl px-4 py-10">
-    <a href="index.html" class="inline-flex rounded-lg border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500">Back to Home</a>
+    <a href="index.html" class="inline-flex rounded-lg border border-slate-500 px-4 py-2 text-sm text-slate-100 hover:border-indigo-300 hover:bg-slate-800">Back to Home</a>
     <section class="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
       <h1 class="text-3xl font-bold">Terms & Conditions</h1>
-      <p class="mt-4 text-slate-300">By using That's My Spot, you agree to responsible use of the platform and all parking facility rules.</p>
-      <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-300">
+      <p class="mt-4 text-slate-200">By using That's My Spot, you agree to responsible use of the platform and all parking facility rules.</p>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-200">
         <li>Bookings are valid only for the selected date and time slot.</li>
         <li>Users must provide accurate vehicle and account information.</li>
         <li>Cancellation and refund eligibility depends on booking timing.</li>
         <li>Repeated misuse may lead to account suspension.</li>
       </ul>
-      <p class="mt-4 text-sm text-slate-400">For legal/support queries, contact <a href="mailto:contact@thatsmyspot.com" class="text-indigo-300 hover:text-white">contact@thatsmyspot.com</a>.</p>
+      <p class="mt-4 text-sm text-slate-300">For legal/support queries, contact <a href="mailto:contact@thatsmyspot.com" class="text-indigo-200 hover:text-white">contact@thatsmyspot.com</a>.</p>
     </section>
   </main>
 </body>
