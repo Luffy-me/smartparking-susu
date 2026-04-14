@@ -78,7 +78,7 @@ public class SecurityUtilTest {
     }
 
     private static final class MockSession implements HttpSession {
-        private final Map<String, Object> attributes = new HashMap<String, Object>();
+        private final Map<String, Object> attributes = new HashMap<>();
 
         @Override
         public Object getAttribute(String name) {
@@ -92,7 +92,7 @@ public class SecurityUtilTest {
     }
 
     private static final class MockRequest implements HttpServletRequest {
-        private final Map<String, String> parameters = new HashMap<String, String>();
+        private final Map<String, String> parameters = new HashMap<>();
 
         void setParameter(String name, String value) {
             parameters.put(name, value);
