@@ -89,6 +89,14 @@ public class SecurityUtilTest {
         public void setAttribute(String name, Object value) {
             attributes.put(name, value);
         }
+
+        @Override
+        public void setMaxInactiveInterval(int interval) {
+        }
+
+        @Override
+        public void invalidate() {
+        }
     }
 
     private static final class MockRequest implements HttpServletRequest {
