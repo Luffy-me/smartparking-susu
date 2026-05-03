@@ -1,6 +1,8 @@
 import java.sql.SQLException;
 
 public class DbUtilTest {
+    private static final String DEFAULT_PASSWORD = "change-me";
+
     public static void main(String[] args) {
         testGetConnectionFailsWithoutPassword();
         System.out.println("DbUtilTest: all tests passed");
@@ -12,7 +14,7 @@ public class DbUtilTest {
             throw new AssertionError("Expected DbUtil.getConnection to throw SQLException");
         } catch (SQLException e) {
             String envPassword = System.getenv("DB_PASSWORD");
-            if (envPassword == null || envPassword.trim().isEmpty() || "change-me".equals(envPassword)) {
+            if (envPassword == null || envPassword.trim().isEmpty() || DEFAULT_PASSWORD.equals(envPassword)) {
                 assertTrue(e.getMessage() != null && e.getMessage().contains("DB_PASSWORD"),
                         "expected missing password message");
             }
