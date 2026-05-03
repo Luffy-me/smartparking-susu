@@ -157,8 +157,6 @@ public class ServletGuardTest {
 
     private static final class MockSession implements HttpSession {
         private final Map<String, Object> attributes = new HashMap<>();
-        private int maxInactiveInterval;
-        private boolean invalidated;
 
         @Override
         public Object getAttribute(String name) {
@@ -168,24 +166,6 @@ public class ServletGuardTest {
         @Override
         public void setAttribute(String name, Object value) {
             attributes.put(name, value);
-        }
-
-        @Override
-        public void setMaxInactiveInterval(int interval) {
-            this.maxInactiveInterval = interval;
-        }
-
-        @Override
-        public void invalidate() {
-            invalidated = true;
-        }
-
-        int getMaxInactiveInterval() {
-            return maxInactiveInterval;
-        }
-
-        boolean isInvalidated() {
-            return invalidated;
         }
     }
 
@@ -231,7 +211,6 @@ public class ServletGuardTest {
         private String redirect;
         private int status = 200;
         private boolean committed;
-        private String contentType;
 
         @Override
         public void sendRedirect(String location) {
@@ -241,7 +220,6 @@ public class ServletGuardTest {
 
         @Override
         public void setContentType(String type) {
-            this.contentType = type;
         }
 
         @Override
@@ -270,10 +248,6 @@ public class ServletGuardTest {
         String getBody() {
             writer.flush();
             return body.toString();
-        }
-
-        String getContentType() {
-            return contentType;
         }
     }
 }
