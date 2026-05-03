@@ -12,7 +12,8 @@ public class Driver implements java.sql.Driver {
     static {
         try {
             DriverManager.registerDriver(new Driver());
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 
