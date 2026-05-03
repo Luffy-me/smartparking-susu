@@ -19,7 +19,7 @@ public class Driver implements java.sql.Driver {
 
     @Override
     public Connection connect(String url, Properties info) throws SQLException {
-        return null;
+        throw new SQLException("Stub driver does not support connections");
     }
 
     @Override

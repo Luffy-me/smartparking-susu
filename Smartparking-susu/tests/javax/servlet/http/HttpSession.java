@@ -5,9 +5,7 @@ public interface HttpSession {
 
     void setAttribute(String name, Object value);
 
-    default void setMaxInactiveInterval(int interval) {
-    }
+    void setMaxInactiveInterval(int interval);
 
-    default void invalidate() {
-    }
+    void invalidate();
 }
